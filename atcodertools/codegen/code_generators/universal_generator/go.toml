@@ -54,6 +54,12 @@ seq = "{name} := make([]{type}, {length})"
 
 # 入力
 [input]
-int = "scanner.Scan()\n{name}, _ = strconv.ParseInt(scanner.Text(), 10, 64)"
-float = "scanner.Scan()\n{name}, _ = strconv.ParseFloat(scanner.Text(), 64)"
+int = "scanner.Scan()\n{name}, err = strconv.ParseInt(scanner.Text(), 10, 64)\nif err != nil {{\n\tpanic(err)\n}}"
+float = "scanner.Scan()\n{name}, err = strconv.ParseFloat(scanner.Text(), 64)\nif err != nil {{\n\tpanic(err)\n}}"
 str = "scanner.Scan()\n{name} = scanner.Text()"
+
+# 宣言と入力
+[declare_and_input]
+int = "scanner.Scan()\n{name}, err := strconv.ParseInt(scanner.Text(), 10, 64)\nif err != nil {{\n\tpanic(err)\n}}"
+float = "scanner.Scan()\n{name}, err := strconv.ParseFloat(scanner.Text(), 64)\nif err != nil {{\n\tpanic(err)\n}}"
+str = "scanner.Scan()\n{name} := scanner.Text()"
