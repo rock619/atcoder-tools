@@ -6,14 +6,14 @@ global_prefix = ""
 
 # ループ
 [loop]
-header = "for {loop_var} := int64(0); {loop_var} < {length}; {loop_var}++ {{"
+header = "for {loop_var} := 0; {loop_var} < {length}; {loop_var}++ {{"
 footer = "}}"
 
 # タイプ
 [type]
-int = "int64"
+int = "int"
 float = "float64"
-str = "string"
+str = "[]byte"
 
 # デフォルト値
 [default]
@@ -23,9 +23,9 @@ str = '""'
 
 # 引数
 [arg]
-int = "{name} int64"
+int = "{name} int"
 float = "{name} float64"
-str = "{name} string"
+str = "{name} []byte"
 seq = "{name} []{type}"
 2d_seq = "{name} [][]{type}"
 
@@ -36,30 +36,36 @@ seq = "{name}[{index}]"
 
 # 宣言
 [declare]
-int = "var {name} int64"
+int = "var {name} int"
 float = "var {name} float64"
-str = "var {name} string"
+str = "var {name} []byte"
 seq = "var {name} []{type}"
 2d_seq = "var {name} [][]{type}"
 
 # 確保
 [allocate]
 seq = "{name} = make([]{type}, {length})"
-2d_seq = "{name} = make([][]{type}, {length_i})\nfor i := int64(0); i < {length_i}; i++ {{\n\t{name}[i] = make([]{type}, {length_j})\n}}"
+2d_seq = "{name} = make([][]{type}, {length_i})\nfor i := 0; i < {length_i}; i++ {{\n\t{name}[i] = make([]{type}, {length_j})\n}}"
 
 # 宣言と確保
 [declare_and_allocate]
 seq = "{name} := make([]{type}, {length})"
-2d_seq = "{name} := make([][]{type}, {length_i})\nfor i := int64(0); i < {length_i}; i++ {{\n\t{name}[i] = make([]{type}, {length_j})\n}}"
+2d_seq = "{name} := make([][]{type}, {length_i})\nfor i := 0; i < {length_i}; i++ {{\n\t{name}[i] = make([]{type}, {length_j})\n}}"
+
+# 入力関数
+[input_func]
+int = "s.Int()"
+float = "s.Float()"
+str = "s.Bytes()"
 
 # 入力
 [input]
-int = "scanner.Scan()\n{name}, err = strconv.ParseInt(scanner.Text(), 10, 64)\nif err != nil {{\n\tpanic(err)\n}}"
-float = "scanner.Scan()\n{name}, err = strconv.ParseFloat(scanner.Text(), 64)\nif err != nil {{\n\tpanic(err)\n}}"
-str = "scanner.Scan()\n{name} = scanner.Text()"
+int = "{name} = {input_func}"
+float = "{name} = {input_func}"
+str = "{name} = {input_func}"
 
 # 宣言と入力
 [declare_and_input]
-int = "scanner.Scan()\n{name}, err := strconv.ParseInt(scanner.Text(), 10, 64)\nif err != nil {{\n\tpanic(err)\n}}"
-float = "scanner.Scan()\n{name}, err := strconv.ParseFloat(scanner.Text(), 64)\nif err != nil {{\n\tpanic(err)\n}}"
-str = "scanner.Scan()\n{name} := scanner.Text()"
+int = "{name} := {input_func}"
+float = "{name} := {input_func}"
+str = "{name} := {input_func}"
